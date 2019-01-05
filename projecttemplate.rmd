@@ -1,0 +1,656 @@
+---
+output:
+  html_document: default
+  word_document: default
+  pdf_document: default
+---
+
+Abdulrahman Hamad Al Duayj
+========================================================
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, packages}
+# Load all of the packages that you end up using in your analysis in this code
+# chunk.
+
+# Notice that the parameter "echo" was set to FALSE for this code chunk. This
+# prevents the code from displaying in the knitted HTML output. You should set
+# echo=FALSE for all code chunks in your file, unless it makes sense for your
+# report to show the code that generated a particular plot.
+
+# The other parameters for "message" and "warning" should also be set to FALSE
+# for other code chunks once you have verified that each plot comes out as you
+# want it to. This will clean up the flow of your report.
+
+#install.packages("ggplot2", dependencies = T) 
+#install.packages("knitr", dependencies = T)
+#install.packages("dplyr", dependencies = T)
+#install.packages("gplots")
+#install.packages("corrplot")
+
+library(ggplot2)
+library(gplots)
+library(knitr)
+library(corrplot)
+options(repos="https://cran.rstudio.com")
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, Load_the_Data_1}
+# Load the Data
+redwin <- read.csv('wineQualityReds.csv')
+win <- read.csv('wineQualityReds.csv')
+redwin$X <- NULL
+win$X <- NULL
+```
+
+This report explores a dataset containing quality and attributes for 1599 red wine samples. 
+
+# Univariate Plots Section
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, Univariate_Plots_2}
+# The structure of red wine dataset 
+str(redwin)
+
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, Univariate_Plots_3}
+# Statistical summary for the red wine data set 
+summary(redwin)
+
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, Univariate_Plots_4}
+#Brief of the dataset rows 
+head(redwin)
+
+```
+
+Our data set 'wineQualityReds'data.frame'	consists of 1599 obs. of  12 variables.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, Univariate_Plots_44}
+# Histogram - Quality
+
+qplot(quality,data = redwin, binwidth = 1, color = I('white') , fill = I('#099DD9')) + 
+  ylab('count') +
+  scale_x_continuous(breaks = seq(0,8,1))
+
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, Univariate_Plots_5}
+# Statistical summary - quality
+summary(redwin$quality)
+
+```
+
+The above graph is the quality distribution, it is normal distribution we will compare the quality with many other variable.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, Univariate_Plots_6}
+# Histogram - alcohol
+qplot(alcohol,data = redwin, color = I('white') , fill = I('#099DD9')) +
+  ylab('count') +
+  scale_x_continuous(breaks = seq(0,15,0.5))
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, Univariate_Plots_7}
+# Statistical summary - alcohol
+summary(redwin$alcohol)
+
+```
+
+The above graph is the alcohol distribution, it seems right skewed distribution.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, Univariate_Plots_8}
+# Histogram - pH
+qplot(pH,data = redwin, color = I('white') , fill = I('#099DD9')) +
+  ylab('count') +
+  scale_x_continuous(breaks = seq(0,4.5,0.1))
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, Univariate_Plots_9}
+# Statistical summary - pH
+summary(redwin$pH)
+
+```
+
+The above graph is the pH distribution, it seems to be normal distribution.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, Univariate_Plots_10}
+# Histogram - density
+qplot(density,data = redwin, color = I('white') , fill = I('#099DD9')) + 
+  ylab('count') +
+  scale_x_continuous(breaks = seq(0,1.005,0.001))
+
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, Univariate_Plots_11}
+# Statistical summary - density
+summary(redwin$density)
+
+```
+
+The above graph is the density distribution, it seems to be normal distribution.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, Univariate_Plots_12}
+# Histogram - total sulfur dioxide
+qplot(total.sulfur.dioxide, data = redwin, color = I('white') , fill = I('#099DD9')) + 
+  ylab('count') +
+  scale_x_continuous(breaks = seq(0,289,20))
+
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, Univariate_Plots_13}
+# Statistical summary - total sulfur dioxide
+summary(redwin$total.sulfur.dioxide)
+
+```
+
+The above graph is the total sulfur dioxide distribution, it right skewed distribution. it seems that there is outlier.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, Univariate_Plots_14}
+# Histogram - free sulfur dioxide
+qplot(free.sulfur.dioxide,data = redwin, color = I('white') , fill = I('#099DD9')) + 
+  ylab('count') +
+  scale_x_continuous(breaks = seq(0,72,5))
+
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, Univariate_Plots_15}
+# Statistical summary - free sulfur dioxide
+summary(redwin$free.sulfur.dioxide)
+
+```
+
+The above graph is the free sulfur dioxide distribution, it seems right skewed distribution and there is outlier.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, Univariate_Plots_16}
+# Histogram - residual sugar
+qplot(residual.sugar, data = redwin, color = I('white') , fill = I('#099DD9')) + 
+  ylab('count') +
+  scale_x_continuous(breaks = seq(0,15.5,1))
+
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, Univariate_Plots_17}
+# Statistical summary - residual sugar
+summary(redwin$residual.sugar)
+
+```
+
+The above graph is residual sugar distribution, it is right skewed distribution and there are outliers.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, Univariate_Plots_18}
+# Histogram - volatile acidity
+qplot(volatile.acidity, data = redwin, color = I('white') , fill = I('#099DD9')) + 
+  ylab('count') +
+  scale_x_continuous(breaks = seq(0,1.6,0.1))
+
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, Univariate_Plots_19}
+# Statistical summary - volatile acidity
+summary(redwin$volatile.acidity)
+
+```
+
+The above graph is volatile acidity distribution, it seems to be right normal distribution.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, Univariate_Plots_20}
+# Histogram - fixed acidity
+qplot(fixed.acidity,data = redwin, color = I('white') , fill = I('#099DD9')) + 
+  ylab('count')  +
+  scale_x_continuous(breaks = seq(0,16,1))
+
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, Univariate_Plots_21}
+# Statistical summary - fixed acidity
+
+summary(redwin$fixed.acidity)
+
+```
+
+The above graph is fixed acidity distribution, it is right skewed distribution.
+
+We will compare and analyze the above variables and find out the ideas and inspiration of making the quality of red wine high
+
+# Univariate Analysis
+
+### What is the structure of your dataset?
+
+Our data set red wine comnsists of 1599 obs. of  12 variables.
+Attribute information:
+Input variables (based on physicochemical tests):
+   1 - fixed acidity (tartaric acid - g / dm^3)
+   2 - volatile acidity (acetic acid - g / dm^3)
+   3 - citric acid (g / dm^3)
+   4 - residual sugar (g / dm^3)
+   5 - chlorides (sodium chloride - g / dm^3
+   6 - free sulfur dioxide (mg / dm^3)
+   7 - total sulfur dioxide (mg / dm^3)
+   8 - density (g / cm^3)
+   9 - pH
+   10 - sulphates (potassium sulphate - g / dm3)
+   11 - alcohol (% by volume)
+   Output variable (based on sensory data): 
+   12 - quality (score between 0 and 10)
+   
+The following observations are made from dataSet:
+   - the quality is normal distribution range from 3 to 8.
+   - alcohol seems to be right skewd over range from 8.40 to 14.90.
+   - ph is normal distribuation with mean 3.31.
+   - minimume rate of alcohol in red wine is 8.40.
+   - 25% of red wine has quality grater than 6.
+
+
+### What is/are the main feature(s) of interest in your dataset?
+The main features of interst in our data set are red wine quality and alcohol volume.
+
+### What other features in the dataset do you think will help support your \investigation into your feature(s) of interest?
+May be these variables will help support our investigation : total sulfur dioxid, free sulfur dioxide and residual sugar.
+
+### Did you create any new variables from existing variables in the dataset?
+No.
+
+### Of the features you investigated, were there any unusual distributions? \Did you perform any operations on the data to tidy, adjust, or change the form \of the data? If so, why did you do this?
+
+Depend on the above plots some are normal distribution like PH and density, some right skewed like residual sugar and total sulfur dioxide.
+
+# Bivariate Plots Section
+
+```{r echo=FALSE,fig.width=9, fig.height=8, Bivariate_Plots_1}
+# Correlation Coefficient Plot
+
+M <- cor(win)
+corrplot(M, method = "number",title = 'Correlation Coefficient Plot ',mar=c(0,0,1,0))
+
+#corrplot.mixed(corr=cor(redwin[,c(1:12)],use ="complete.obs"), lower = "number", upper = "circle", tl.pos = c("d",
+#"lt", "n"), diag = c("n", "l", "u"), bg = "white", addgrid.col = "grey",
+#lower.col = NULL, upper.col = NULL)
+```
+
+The above plot is the correlation coefficient for each variable with the other.  
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, Bivariate_Plots_2}
+# Scatter plot for quality VS. alcohol + boxplot + smooth 
+
+ggplot(aes(as.factor(quality), alcohol),data = redwin) + 
+  geom_jitter(width = .25, height = 0, alpha = 0.6) +
+  geom_boxplot(alpha=.6) +
+  geom_smooth(method = 'lm',color='red',aes(group=1)) +
+  xlab('quality')
+```
+
+In the above graph is compare between the quality of red wine and alcohol this relationship with correlation coefficient(0.48) and boxplot each quality factor, From the boxplot we can see that there are some outliers at quality 3, 5 and 6.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, Bivariate_Plots_4}
+# Scatter plot for quality VS. total sulfur dioxide + boxplot + smooth 
+
+ggplot(aes(as.factor(quality), total.sulfur.dioxide),data = redwin) + 
+   geom_jitter(width = .25, height = 0, alpha = 0.6) +
+  geom_boxplot(alpha=.6) +
+  geom_smooth(method = 'lm',color='red',aes(group=1)) +
+  xlab('quality')
+```
+
+In the above graph is compare between the quality of red wine and total sulfur dioxide this relationship with correlation coefficient(-0.19) and boxplot each quality factor, from the boxplot we can see that there are some outliers at quality 4, 6, 7and 8.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, Bivariate_Plots_6}
+# Scatter plot for quality VS.  free sulfur dioxide + boxplot + smooth 
+
+ggplot(aes(as.factor(quality), free.sulfur.dioxide),data = redwin) + 
+   geom_jitter(width = .25, height = 0, alpha = 0.6) +
+  geom_boxplot(alpha=.6) +
+  geom_smooth(method = 'lm',color='red',aes(group=1)) +
+  xlab('quality')
+```
+
+In the above graph is compare between the quality of red wine and free sulfur dioxide this relationship with correlation coefficient(-0.05) and boxplot each quality factor, from the boxplot we can see that there are outliers all quality level.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, Bivariate_Plots_8}
+# Scatter plot for quality VS. residual sugar + boxplot + smooth 
+
+ggplot(aes(as.factor(quality), residual.sugar),data = redwin) + 
+  geom_jitter(width = .25, height = 0, alpha = 0.6) +
+  geom_boxplot(alpha=.6) +
+  geom_smooth(method = 'lm',color='red',aes(group=1)) +
+  xlab('quality')
+```
+
+In the above graph is compare between the quality of red wine and residual sugar, from the boxplot we can see that there are outliers all quality level and boxplot each quality factor, and we can notice the median of quality levels almost equal
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, Bivariate_Plots_10}
+# Scatter plot for quality VS. density + boxplot + smooth 
+
+ggplot(aes(as.factor(quality), density),data = redwin) + 
+  geom_jitter(width = .25, height = 0, alpha = 0.6) +
+  geom_boxplot(alpha=.6) +
+  geom_smooth(method = 'lm',color='red',aes(group=1)) +
+  xlab('quality')
+```
+
+In the above graph is compare between the quality of red wine and density this relationship with correlation coefficient(-0.17) and boxplot each quality factor, from the boxplot we can see that there are some outliers at quality 5, 6 and 7.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, Bivariate_Plots_12}
+# Scatter plot for quality VS. volatile acidity + boxplot + smooth 
+
+ggplot(aes(as.factor(quality), volatile.acidity),data = redwin) + 
+  geom_jitter(width = .25, height = 0, alpha = 0.6) +
+  geom_boxplot(alpha=.6) +
+  geom_smooth(method = 'lm',color='red',aes(group=1)) +
+  xlab('quality')
+```
+
+In the above graph is compare between the quality of red wine and volatile acidity this relationship with correlation coefficient(-.39) and boxplot each quality factor, from the boxplot we can see that there are some outliers.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, Bivariate_Plots_14}
+# Scatter plot for quality VS. fixed acidity + boxplot + smooth 
+
+ggplot(aes(as.factor(quality), fixed.acidity),data = redwin) + 
+  geom_jitter(width = .25, height = 0, alpha = 0.6) +
+  geom_boxplot(alpha=.6) +
+  geom_smooth(method = 'lm',color='red',aes(group=1)) +
+  xlab('quality')
+```
+
+In the above graph are compare between the quality of red wine and fixed acidity, this relationship with correlation coefficient(0.12) and boxplot each quality factor, from the boxplot we can see that there are some outliers.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, Bivariate_Plots_16}
+# Scatter plot for fixed acidity VS. citric acid + smooth plot.
+
+ggplot(aes(fixed.acidity, citric.acid),data = redwin) + 
+  geom_jitter(alpha = 0.6) +
+  geom_smooth(method = 'lm',color='red')+
+  xlab('fixed acidity') +
+  ylab('citric acid')
+```
+
+In the above graph compare between the fixed acidity of red wine and citric acid, it is positive strong relationship with correlation coefficient(0.67)
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, Bivariate_Plots_17}
+# Scatter plot for fixed acidity VS. citric acid + smooth plot.
+
+ggplot(aes(fixed.acidity, density),data = redwin) + 
+  geom_jitter(alpha = 0.6) +
+  geom_smooth(method = 'lm',color='red')
+```
+
+In the above graph compare between the fixed acidity of red wine and density, it is positive strong relationship with correlation coefficient(0.67).
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, Bivariate_Plots_18}
+# Scatter plot for fixed acidity VS. pH + smooth plot.
+
+ggplot(aes(fixed.acidity, pH),data = redwin) + 
+  geom_jitter(alpha = 0.6) +
+  geom_smooth(method = 'lm',color='red')
+```
+
+In the above graph compare between the fixed acidity of red wine and pH, it is negative strong relationship with correlation coefficient(-0.68).
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, Bivariate_Plots_19}
+# Scatter plot for volatile acidity VS. citric acid + smooth plot.
+
+ggplot(aes(volatile.acidity, citric.acid),data = redwin) + 
+  geom_jitter(alpha = 0.6) +
+  geom_smooth(method = 'lm',color='red')
+```
+
+In the above graph compare between the volatile acidity of red wine and citric acid, this relationship with correlation coefficient(-0.55).
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, Bivariate_Plots_20}
+# Scatter plot for alcohol VS. density + smooth plot.
+
+ggplot(aes(alcohol, density),data = redwin) + 
+  geom_jitter(alpha = 0.6) +
+  geom_smooth(method = 'lm',color='red')
+```
+
+In the above graph compare between the alcohol of red wine and density, this relationship with correlation coefficient(-0.5).
+
+# Bivariate Analysis
+
+
+### Talk about some of the relationships you observed in this part of the \investigation. How did the feature(s) of interest vary with other features in \the dataset?
+- There are strong between fixed.acidity and citric.acid correlation confession = 0.67.
+- The relationships between quality and alcohol it lead to observation that good wine quality has highter alcohol.
+- The relationships between quality and volatile.acidity it lead to observation that good wine quality has less volatile.acidity.
+- Free sulfur dioxide not much impact to wine quality.
+- Residual sugar is not impact to wine quality.
+
+  
+
+### Did you observe any interesting relationships between the other features \(not the main feature(s) of interest)?
+
+Yes, fixed acidity VS. citric acid (0.67).
+      fixed acidity VS. density (0.67).
+      fixed.acidity VS. pH (-0.68).
+      volatile acidity VS. citric.acid (-0.55)
+
+
+### What was the strongest relationship you found?
+The strongest relationship between fixed acidity and pH with correlation (-0.68) and between fixed acidity and citric acid with correlation (0.68).
+
+# Multivariate Plots Section
+
+```{r echo=FALSE, Multivariate_Plots_1}
+# create new column 'alcoholClass' with Light, Medium and Strong.   
+
+redwin$alcoholClass <- ''
+redwin$alcoholClass[redwin$alcohol<=9] = 'Light'
+redwin$alcoholClass[redwin$alcohol>9 & redwin$alcohol<=12 ] = 'Medium'
+redwin$alcoholClass[redwin$alcohol>12 ] = 'Strong'
+
+redwin$quality_cut = cut(redwin$quality,c(0,3,6,10),labels = c("Low (0 to 3)","Medium (4 to 5)","High (6 to 10)") )
+```
+
+```{r echo=FALSE, Multivariate_Plots_01}
+# create new column 'quality_cut' with (0,3], (3,6] and (6,10].   
+
+redwin$quality_cut = cut(redwin$quality,c(0,3,6,10))
+```
+
+```{r echo=FALSE, Multivariate_Plots_2}
+# Scatter plot - fixed acidity VS. citric acid Colored By Qualiy Cut.
+
+ggplot(aes(fixed.acidity, citric.acid),data = redwin) + 
+  geom_point(aes(color=quality_cut )) +
+  scale_color_brewer(palette = 'Set1',name="Quality\nLevels", direction = -1) +
+  ggtitle('Fixed Acidity VS. Citric Acid Colored By Qualiy Cut')
+```
+
+```{r echo=FALSE, Multivariate_Plots_3}
+# Scatter plot - fixed acidity VS. citric acid Colored By Qualiy Cut + Facet Wrap By Alcohol Classification.
+
+ggplot(aes(fixed.acidity, citric.acid),data = redwin) + 
+  geom_jitter(alpha = 1/3,aes(color=quality_cut),stat = "identity") +
+  coord_cartesian(xlim = c(quantile(redwin$fixed.acidity,.01),quantile(redwin$fixed.acidity,.99)),
+                  ylim =c(quantile(redwin$citric.acid,.01),quantile(redwin$citric.acid,.99))) +
+  facet_wrap(~redwin$alcoholClass) +
+  scale_color_brewer(palette = 'Set1',name="Quality\nLevels", direction = -1) +
+  ggtitle(' Facet Wrap By Alcohol Classification') 
+```
+
+The first graph above is Fixed Acidity VS. Citric Acid Colored By Quality levels, The seconde facer wrap by alcohol volume, Alcohol volume <=9 consider as 'Light', Alcohol volume >9 and <=12 consider as 'Medium' and 'strong' whic is >12.
+
+```{r echo=FALSE, Multivariate_Plots_4}
+# Scatter plot - Fixed Acidity VS. Density Colored By Qualiy Cut.
+
+ggplot(aes(fixed.acidity, density),data = redwin) + 
+  geom_point(aes(color=quality_cut ))  +
+  scale_color_brewer(palette = 'Set1',name="Quality\nLevels", direction = -1) +
+  ggtitle('Fixed Acidity VS. Density Colored By Qualiy Cut')
+```
+
+```{r echo=FALSE, Multivariate_Plots_5}
+# Scatter plot - Fixed Acidity VS. Density Colored By Qualiy Cut + Facet Wrap By Alcohol Classification
+
+ggplot(aes(fixed.acidity, density),data = redwin) + 
+  geom_jitter(alpha = 1/3,aes(color=quality_cut),stat = "identity") +
+  coord_cartesian(xlim = c(quantile(redwin$fixed.acidity,.01),quantile(redwin$fixed.acidity,.99)),
+                  ylim =c(quantile(redwin$density,.01),quantile(redwin$density,.99))) +
+  facet_wrap(~redwin$alcoholClass) +
+  scale_color_brewer(palette = 'Set1',name="Quality\nLevels", direction = -1) +
+  ggtitle(' Facet Wrap By Alcohol Classification')
+```
+
+In the above scatterplot, the first one Fixed Acidity VS. Density colored by quality levels, The second one facer wrap by alcohol, Alcohol volume <=9 consider as 'Light', Alcohol volume >9 and <=12 consider as 'Medium' and 'strong' whic is >12.
+We think there is no in insghts. all colors distributed all over axises we can not get a special impact for our study. 
+
+```{r echo=FALSE, Multivariate_Plots_6}
+# Scatter plot - Fixed Acidity VS.pH Colored By Qualiy Cut.
+
+ggplot(aes(fixed.acidity, pH),data = redwin) + 
+  geom_point(aes(color=quality_cut )) +
+  scale_color_brewer(palette = 'Set1',name="Quality\nLevels", direction = -1) +
+  ggtitle('Fixed Acidity VS.  pH Colored By Qualiy Cut')
+```
+
+```{r echo=FALSE, Multivariate_Plots_7}
+# Scatter plot - Fixed Acidity VS. pH Colored By Qualiy Cut + Facet Wrap By Alcohol Classification.
+
+ggplot(aes(fixed.acidity, pH),data = redwin) + 
+  geom_jitter(alpha = 1/3,aes(color=quality_cut),stat = "identity") +
+  coord_cartesian(xlim = c(quantile(redwin$fixed.acidity,.01),quantile(redwin$fixed.acidity,.99)),
+                  ylim =c(quantile(redwin$pH,.01),quantile(redwin$pH,.99))) +
+  facet_wrap(~redwin$alcoholClass) +
+  scale_color_brewer(palette = 'Set1',name="Quality\nLevels", direction = -1) +
+  ggtitle(' Facet Wrap By Alcohol Classification')
+```
+
+In the above scatterplot, The first one Fixed Acidity VS. Ph colored by quality levels, The second one facer wrap by alcohol, alcohol volume <=9 consider as 'Light', alcohol volume >9 and <=12 consider as 'Medium' and 'strong' whic is >12. 
+We think there is no in insghts. all colors distributed all over axises we can not get a special impact for our study.
+
+```{r echo=FALSE, Multivariate_Plots_8}
+# Scatter plot - volatile acidity VS. citric acid Colored By Qualiy Cut.
+
+ggplot(aes(volatile.acidity, citric.acid),data = redwin) + 
+  geom_point(aes(color=quality_cut )) +
+  scale_color_brewer(palette = 'Set1',name="Quality\nLevels", direction = -1) +
+  ggtitle('volatile acidity VS. citric acid Colored By Qualiy Cut')
+  
+```
+
+```{r echo=FALSE, Multivariate_Plots_9}
+# Scatter plot - volatile acidity VS. citric acid Colored By Qualiy Cut + Facet Wrap By Alcohol Classification.
+
+ggplot(aes(volatile.acidity,citric.acid),data = redwin) + 
+  geom_jitter(alpha = 1/3,aes(color=quality_cut),stat = "identity") +
+  coord_cartesian(xlim = c(quantile(redwin$volatile.acidity,.01),quantile(redwin$volatile.acidity,.99)),
+                  ylim =c(quantile(redwin$citric.acid,.01),quantile(redwin$citric.acid,.99))) +
+  facet_wrap(~redwin$alcoholClass) +
+  scale_color_brewer(palette = 'Set1',name="Quality\nLevels", direction = -1) +
+  ggtitle(' Facet Wrap By Alcohol Classification')
+```
+
+In the above scatterplot, The first one volatile acidity VS. citric acid Colored By Qualiy levels, The second one facer wrap by alcohol, Alcohol volume <=9 consider as 'Light', Alcohol volume >9 and <=12 consider as 'Medium' and 'strong' whic is >12.
+As notice on the graph when the citric acid increase and with reducing volatile acidity the wine leads to be high quality specially with high alcohol.
+
+```{r echo=FALSE, Multivariate_Plots_10}
+# Scatter plot - alcohol VS. density Colored By Qualiy Cut.
+
+ggplot(aes(alcohol, density),data = redwin) + 
+  geom_point(aes(color=quality_cut )) +
+  scale_color_brewer(palette = 'Set1',name="Quality\nLevels", direction = -1) +
+  ggtitle('alcohol VS. density Colored By Qualiy Cut')
+  
+```
+
+In the above scatterplot,alcohol VS. density Colored By Qualiy levels.
+
+# Multivariate Analysis
+
+### Talk about some of the relationships you observed in this part of the \investigation. Were there features that strengthened each other in terms of \looking at your feature(s) of interest?
+- More alcohole lead to be have good quality wine.
+- Depend on " fixed acidity Vs citric acid vs quality vs alcohol " model, we noticed that the high quality wine located in the middle of graph.
+- I think there is no spical differences can help us in " fixed acidity va density" graph and in" fixed acidity va PH".
+- when volatile acidity and citric acid decreced the quality of wine will decrease.
+
+### Were there any interesting or surprising interactions between features?
+Yes, some relationship that have high correlation coefficient do not have insight like the relationship between " fixed acidity va density" and " fixed acidity va PH".
+
+### OPTIONAL: Did you create any models with your dataset? Discuss the \strengths and limitations of your model.
+
+------
+
+# Final Plots and Summary
+
+### Plot One
+
+```{r echo=FALSE, Plot_One}
+# Scatter plot - fixed.acidity VS. citric acid Colored By Qualiy Cut.
+# Transparency 1/2 with jitter.
+# Breaks x axis from 0 to 16 increment by 1.
+# Zoom into the plot from both sides of x and y by 1%.
+
+
+ggplot(aes(fixed.acidity, citric.acid),data = redwin) + 
+  geom_jitter(alpha = 1/2 ,aes(color=quality_cut )) +
+  scale_x_continuous(breaks = seq(0,16,1)) +
+  coord_cartesian(xlim = c(quantile(redwin$fixed.acidity,.01),quantile(redwin$fixed.acidity,.99)),
+                  ylim =c(quantile(redwin$citric.acid,.01),quantile(redwin$citric.acid,.99))) +
+  scale_color_brewer(palette = 'Set1',name="Quality\nLevels", direction = -1) +
+    ggtitle('Fixed Acidity VS. Citric Acid Colored By Quality') +
+  xlab(expression(fixed~acidity~(g/dm^{3}))) +
+  ylab(expression(citric~acid~(g/dm^{3})))
+```
+
+### Description One
+
+The above plot has positive relationship, We can see that the good red wine quality has higher citric acid and higher fixed acidity.
+
+### Plot Two
+
+```{r echo=FALSE, Plot_Two}
+# Scatter plot - volatile acidity VS. citric acid Colored By Qualiy Cut.
+# Transparency 1/2 with jitter.
+# Breaks x axis from 0 to 1 increment by 0.1.
+# Zoom into the plot from both sides of x and y by 1%.
+
+ggplot(aes(volatile.acidity, citric.acid),data = redwin) + 
+  geom_jitter(alpha = 1/2, aes(color=quality_cut )) +
+  scale_x_continuous(breaks = seq(0,1,.1))+
+  coord_cartesian(xlim = c(quantile(redwin$volatile.acidity,.01),quantile(redwin$volatile.acidity,.99)),
+                  ylim =c(quantile(redwin$citric.acid,.01),quantile(redwin$citric.acid,.99))) +
+  scale_color_brewer(palette = 'Set1',name="Quality\nLevels", direction = -1) +
+   ggtitle('Volatile acidity VS. Citric Acid Colored By Quality') +
+  xlab(expression(volatile~acidity~(g/dm^{3}))) +
+  ylab(expression(Citric~acid~(g/dm^{3})))
+```
+
+### Description Two
+
+The above plot has negative relationship, when citric acid decreases and volatile acidity increases the quality of red wine will decrease.
+
+### Plot Three
+
+```{r echo=FALSE, Plot_Three}
+# Scatter plot - alcohol VS. density Colored By Qualiy Cut.
+# Transparency 1/2 with jitter.
+# Breaks x axis from 0 to 14 increment by 1.
+# Zoom into the plot from both sides of x and y by 1%.
+
+
+ggplot(aes(alcohol, density),data = redwin) + 
+  geom_jitter(alpha = 1/2,aes(color=quality_cut )) +
+  scale_x_continuous(breaks = seq(0,14.1))+
+  coord_cartesian(xlim = c(quantile(redwin$alcohol,.01),quantile(redwin$alcohol,.99)),
+                  ylim =c(quantile(redwin$density,.01),quantile(redwin$density,.99))) +
+  scale_color_brewer(palette = 'Set1',name="Quality\nLevels", direction = -1) +
+  ggtitle('Alcohol VS. Density Colored By Quality') +
+  xlab('Alcohol  (% by volume)') +
+  ylab(expression(Density~(g/dm^{3})))
+```
+
+### Description Three
+The above plot has negative relationship, Decrease of density and increase of alcohol leads to have high red wine quality.
+
+------
+
+# Reflection
+
+Our study about the  quality of red wine, our data set has 1599 of red wine samples and 12 Attribute informations. First i starting reading the test file attached which describes the variables and how the data was collected in order to understand the variables and the data.
+I wished if there was specific categorical for the alcohol volume (standard text levels) beside the numeric volume Instead of guessing it ourselves.
+
+The red wine quality study is a complex study, what is surprising that some relationship between variables have high correlation coefficient and has no insights or special impact for the red wine quality.
+
+Finally, There is no specific factor that determine the quality of the red wine, Actually the quality of red wine determined by several factors generally increase alcohol volume, reduce density, reduce volatile acidity and increase citric acid.
+
+The end Of report, Thank you.
